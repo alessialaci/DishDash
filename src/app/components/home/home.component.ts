@@ -18,8 +18,9 @@ export class HomeComponent implements OnInit {
   }
 
   // findRecipes() {
-  //   this.recipesSrv.getRecipes().subscribe(data => {
+  //   this.recipesSrv.getRecipes('query').subscribe(data => {
   //     this.recipes = data.hits.slice(-3);
+  //     console.log(data);
   //   })
   // }
 

@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+
+<div class="container p-5">
+  <h1>Recipes</h1>
+
+  <h3>Filter</h3>
+  <form #filterForm="ngForm">
+    <div class="form-group mb-3">
+      <label for="ingredients">Ingredients number</label>
+      <input name="ingredients" type="number" class="form-control" id="ingredients" placeholder="5" ngModel>
+    </div>
+
+    <div class="form-group py-4">
+      <p for="mealType">Meal Type</p>
+      <div class="form-check" *ngFor="let mType of mealTypes">
+        <input class="form-check-input" type="radio" name="mealType" id="{{mType}}" [value]="mType" ngModel>
+        <label class="form-check-label" for="mealType">{{mType}}</label>
+      </div>
+    </div>
+
+    <div class="form-group py-4">
+      <p for="cuisineType">Cuisine Type</p>
+      <div class="form-check" *ngFor="let cType of cuisineTypes">
+        <input class="form-check-input" type="radio" name="cuisineType" id="{{cType}}" [value]="cType" ngModel>
+        <label class="form-check-label" for="cuisineType">{{cType}}</label>
+      </div>
+    </div>
+
+    <div class="form-group py-4">
+      <label for="calories">Calories</label>
+      <div class="input-group">
+        <span class="input-group-text">From</span>
+        <input name="mincalories" type="number" aria-label="Min Calories" minlength="0" class="form-control" placeholder="0" ngModel>
+        <span class="input-group-text">To</span>
+        <input name="maxcalories" type="number" aria-label="Max Calories" minlength="0" class="form-control" placeholder="0" ngModel>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning rounded-0 px-5" >Cofirm</button> <!--(click)="sendFilters(filterForm)"-->
+  </form>
+
+  <div class="row justify-content-center" *ngIf="recipes.length > 1">
+    <div class="card col-4 m-3" style="width: 18rem;" *ngFor="let recipe of recipes">
+      <img src="{{recipe.recipe.image}}" class="card-img-top" alt="{{recipe.recipe.label}}">
+      <div class="card-body">
+        <h5 class="card-title">{{recipe.recipe.label}}</h5>
+        <p class="card-text">{{recipe.recipe.source}}</p>
+        <a [routerLink]="['/recipes', recipe.recipe.uri.split('#')[1]]" class="btn btn-warning">See more</a>
+      </div>
+    </div>
+  </div>
+  <div class="text-center" *ngIf="recipes.length < 1">
+    <img src="../../../assets/img/no-recipes.png" alt="No recipes">
+  </div>
+
+</div>
+
+<app-footer></app-footer>
