@@ -1,0 +1,23 @@
+nav {
+  background-color: #a6a3a3;
+}
+
+.navbar-nav {
+  --bs-nav-link-padding-y: 0;
+}
+
+.nav-link.active {
+  color: #DBA23E;
+  font-weight: bold;
+}
+
+.logout {
+  color: #ad1f1f;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    background-color: #ad1f1f;
+  }
+}

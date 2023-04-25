@@ -1,0 +1,39 @@
+<app-navbar></app-navbar>
+
+<section>
+  <img src="../../../assets/img/food-vecteezy.jpg" alt="Food">
+  <div class="intro text-center">
+    <h1>PLAN YOUR WEEKLY <span>DISHES</span>!</h1>
+    <h4>With DishDash you can easly plan your week<br>with your favourite meals.</h4>
+  </div>
+</section>
+
+<!-- Prima onda -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#30c828" fill-opacity="1" d="M0,32L48,48C96,64,192,96,288,128C384,160,480,192,576,208C672,224,768,224,864,197.3C960,171,1056,117,1152,90.7C1248,64,1344,64,1392,64L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+
+<div class="container text-center py-5">
+  <h2>Last Recipes</h2>
+
+  <div class="row justify-content-center">
+    <div class="card col-4 m-3" style="width: 18rem;" *ngFor="let recipe of recipes">
+      <img src="{{recipe.recipe.image}}" class="card-img-top" alt="{{recipe.recipe.label}}">
+      <div class="card-body">
+        <h5 class="card-title">{{recipe.recipe.label}}</h5>
+        <p class="card-text">{{recipe.recipe.source}}</p>
+        <a href="#" class="btn btn-warning">See more</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="background my-5"></div>
+
+<div class="container text-center">
+  <h2>Discover all our categories</h2>
+</div>
+
+<!-- Seconda onda -->
+<svg id="onda-due" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#30c828" fill-opacity="1" d="M0,32L48,48C96,64,192,96,288,128C384,160,480,192,576,208C672,224,768,224,864,197.3C960,171,1056,117,1152,90.7C1248,64,1344,64,1392,64L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+
+<app-footer></app-footer>

@@ -1,0 +1,79 @@
+section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.intro {
+  position: absolute;
+  z-index: 1;
+
+  h1, h4 {
+    color: #242424;
+    text-shadow: 1px 2px 5px #9b9a9a;
+  }
+
+  span {
+    color: #30c828;
+  }
+}
+
+section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #30c828, transparent);
+  z-index: 1000;
+}
+
+#onda-due {
+  rotate: 180deg;
+}
+
+.background {
+  background-image: url('../../../assets/img/graphic-food-vecteezy.jpg');
+  height: 500px;
+  background-attachment: fixed;
+}
+
+// .altro {
+//   background-color: #edc168;
+// }
+
+// p .bi {
+//   color: #DBA23E;
+//   font-size: 30px;
+// }
+
+// .immagine-fixed {
+//   height: 400px;
+//   background-color: #DBA23E;
+//   background: url('../../../assets/img/immagine-fixed.jpg');
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-attachment: fixed;
+//   background-position: center;
+// }
+
+
+
+// @media screen and (max-width: 1300px) {
+//   .intro {
+//     top: 50%;
+//     left: 45%;
+//   }
+// }
