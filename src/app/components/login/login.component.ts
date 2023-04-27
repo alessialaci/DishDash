@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
 
   email: string = '';
   password: string = '';
+  error: string = '';
 
   constructor(private auth: AuthService) { }
 
@@ -18,13 +19,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.email == '') {
-      alert('Please enter email');
-      return;
-    }
-
-    if (this.password == '') {
-      alert('Please enter password');
+    if (this.email == '' || this.password == '') {
+      this.error = 'Please insert correct credentials.';
       return;
     }
 

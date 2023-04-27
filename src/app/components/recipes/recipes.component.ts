@@ -23,7 +23,8 @@ export class RecipesComponent implements OnInit {
   constructor(private recipesSrv: RecipesService) { }
 
   ngOnInit(): void {
-    this.findRecipes();
+    // this.findRecipes();
+    // this.getIdFavs()
   }
 
   // Per recuperare la lista di ricette
@@ -34,6 +35,17 @@ export class RecipesComponent implements OnInit {
 
     })
   }
+
+  // getIdFavs() {
+  //   const user = window.localStorage.getItem('token');
+  //   const parseUser = JSON.parse(user!);
+
+  //   this.recipesSrv.getFavsByUserId(parseUser.user.id).subscribe(res => {
+  //     this.favs = res;
+  //     console.log(res);
+
+  //   });
+  // }
 
   // findSpecificRecipes(q: string) {
   //   this.recipesSrv.getRecipes(q).subscribe(data => {
@@ -87,22 +99,24 @@ export class RecipesComponent implements OnInit {
     const parseUser = JSON.parse(user!);
 
     this.recipesSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
-      console.log(res);
-      this.updateUser(res, recipeId);
+      this.updateUser(res, recipeId, parseUser.user.uid);
     })
   }
 
   // ...e aggiornando i suoi dati (in questo caso i preferiti)
-  updateUser(id: number, recipeId: string) {
-    this.favs.push(recipeId);
+  updateUser(id: number, recipeId: string, userId: string) {
+    this.recipesSrv.getFavsByUserId(userId).subscribe(res => {
+      this.favs = res;
+      this.favs.push(recipeId)
 
-    let newUser: Partial<User> = {
-      recipes: this.favs
-    }
+      let newUser: Partial<User> = {
+        recipes: this.favs
+      }
 
-    this.recipesSrv.updateRecord(id, newUser).subscribe(res => {
-      console.log(res);
-    })
+      this.recipesSrv.updateRecord(id, newUser).subscribe(res => {
+        console.log(res);
+      })
+    });
   }
 
 }

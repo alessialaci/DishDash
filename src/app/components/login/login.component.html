@@ -1,43 +1,35 @@
-<div class="container-fluid">
-  <div class="row mt-5">
-      <div class="col"></div>
-      <div class="col-4">
-          <div class="card shadow">
-              <div class="card-body">
-                  <form>
-                      <div class="mb-3">
-                          <h4 class="text-dark text-muted">Login</h4>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" [(ngModel)]="email">
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" [(ngModel)]="password">
-                      </div>
-                      <button type="button" class="btn btn-info" (click)="login()">Login</button>
-                      <div class="row">
-                          <div class="col-md-6">
-                              <a href="/register" style="text-decoration: none;">Need Account ? <span class="text-danger">Register</span></a>
-                          </div>
-                          <div class="col-md-6">
-                              <a href="/forgot-password" class="text-dark" style="text-decoration: none;"> Forgot Password ? </a>
-                          </div>
-                      </div>
-                      <!-- <div class="row mt-2">
-                          <a (click)="signInWithGoogle()" style="text-decoration: none;cursor: pointer;">
-                              <div class="card shadow text-center">
-                                  <div class="card-body">
-                                      <img src="../../../assets/icons8-google-48.png" alt="" height="24px" width="24px"> Sign In with Google
-                                  </div>
-                              </div>
-                          </a>
-                      </div> -->
-                  </form>
-              </div>
-          </div>
+<app-navbar></app-navbar>
+
+<div class="container-fluid overflow-hidden p-0">
+  <video src="../../../assets/img/video.mp4" autoplay muted loop></video>
+
+  <div class="card text-center shadow p-4">
+    <div class="card-body">
+      <h2 class="mb-4">Login</h2>
+      <form class="mb-4">
+        <div class="form-floating form-group mb-3">
+          <input type="email" class="form-control" name="email" placeholder="email" id="email" [(ngModel)]="email" required>
+          <label for="email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+        </div>
+        <div class="form-floating form-group mb-3">
+          <input type="password" class="form-control" name="password" placeholder="password" id="password" [(ngModel)]="password" required>
+          <label for="password" class="form-label"><i class="bi bi-key"></i> Password</label>
+        </div>
+        <p class="text-danger">{{error}}</p>
+        <button type="button" class="btn-categoria" (click)="login()">Login</button>
+      </form>
+
+      <div class="mb-2">
+        <p class="text-secondary m-0">Need Account?<a class="text-decoration-none" title="Register"
+            routerLink="/register"> Register</a></p>
       </div>
-      <div class="col"></div>
+
+      <div>
+        <p class="text-secondary m-0">Forgot Password? <a class="text-decoration-none" title="Forgot password"
+            routerLink="/forgot-password">Click here</a></p>
+      </div>
+    </div>
   </div>
 </div>
+
+<app-footer></app-footer>

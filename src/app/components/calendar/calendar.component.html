@@ -1,20 +1,48 @@
 <app-navbar></app-navbar>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedLabel}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm">
+          <input type="date" name="date" id="date" ngModel>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addEvent(form, selectedLabel)">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container py-5">
+  <h1>Calendar</h1>
+  <hr>
+
   <div class="row">
-    <div class="col">
+    <div class="col-12 col-md-6 py-4">
       <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
     </div>
-    <div class="col">
-      <form #form="ngForm">
-        <input type="text" name="idRecipe" id="idRecipe" ngModel>
-        <input type="date" name="date" id="date" ngModel>
-        <button type="button" (click)="addEvent(form)">Clicca</button>
-      </form>
-
+    <div class="col-12 col-md-6 py-4">
       <div>
-        <div *ngFor="let fav of favs">
-          <p>{{fav}}</p>
+        <h2>Lista preferiti</h2>
+        <div *ngFor="let fav of displayedRecipes">
+          <div class="d-flex justify-content-between bg-success p-2 my-3">
+            <div>
+              <p class="fw-bold m-0">{{fav.label}}</p>
+              <p>{{fav.source}}</p>
+            </div>
+            <div>
+              <a [routerLink]="['recipes', fav.uri.split('#')[1]]">See recipe</a>
+              <button class="btn" (click)="selectedLabel=fav.label;" data-bs-toggle="modal" data-bs-target="#exampleModal">Add to Calendar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,14 @@
   font-family: Montserrat;
 }
 
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
 a {
   color: #484847;
   transition: 0.3s linear;
@@ -22,6 +30,28 @@ a {
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.form-check-input {
+  &:checked {
+    background-color: #086d12;
+    border-color: #086d12;
+  }
+
+  &:focus {
+    border-color: #205b12;
+    box-shadow: 0 0 0 0.25rem #096e0a40;
+  }
+}
+
+.fc .fc-button-primary {
+  background-color: #205b12;
+  border-color: #205b12;
+
+  &:hover {
+    background-color: #096e0b;
+    border-color: #096e0b;
   }
 }
 

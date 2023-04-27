@@ -19,7 +19,8 @@ export class RecipesService {
       type: 'public',
       app_id: 'd84b34a5',
       app_key: '1163caf9de0e70fb5c44bd3e655467c0',
-      field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredients', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags', 'uri', 'url' ]
+      field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredients', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags', 'uri', 'url' ],
+      count: 20
     }});
 
     return this.http.get('https://api.edamam.com/api/recipes/v2', { headers, params });

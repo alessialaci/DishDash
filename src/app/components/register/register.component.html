@@ -1,32 +1,34 @@
-<div class="container-fluid">
-  <div class="row mt-5">
-    <div class="col"></div>
-    <div class="col-4">
-      <div class="card shadow">
-        <div class="card-body">
-          <form>
-            <div class="mb-3">
-              <h4 class="text-dark text-muted">Register</h4>
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input type="email" class="form-control" name="email" [(ngModel)]="email">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password" [(ngModel)]="password">
-            </div>
-            <button type="button" class="btn btn-info" (click)="register()">Register</button>
-            <div class="row">
-              <div class="col-md-6">
-                <a href="/login" style="text-decoration: none;">Have an account ? <span
-                    class="text-danger">Login</span></a>
-              </div>
-            </div>
-          </form>
+<app-navbar></app-navbar>
+
+<div class="container-fluid overflow-hidden p-0">
+  <video src="../../../assets/img/video.mp4" autoplay muted loop></video>
+
+  <div class="card text-center shadow p-4">
+    <div class="card-body">
+      <h2 class="mb-4">Register</h2>
+      <form class="mb-4">
+        <div class="form-floating form-group mb-3">
+          <input type="email" class="form-control" name="email" placeholder="email" id="email" [(ngModel)]="email" required>
+          <label for="email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+          <div id="email" class="invalid-feedback">
+            Please write your email.
+          </div>
         </div>
+        <div class="form-floating form-group mb-3">
+          <input type="password" class="form-control" name="password" placeholder="password" id="password" [(ngModel)]="password" required>
+          <label for="password" class="form-label"><i class="bi bi-key"></i> Password</label>
+        </div>
+        <p class="text-danger">{{error}}</p>
+        <button type="button" class="btn-categoria" (click)="register()">Register</button>
+      </form>
+
+      <div>
+        <p class="text-secondary m-0">Have already an account? <a class="text-decoration-none" title="Login"
+            routerLink="/login">Login</a></p>
       </div>
     </div>
-    <div class="col"></div>
   </div>
+
 </div>
+
+<app-footer></app-footer>

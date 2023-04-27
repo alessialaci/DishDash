@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -14,9 +14,12 @@ import { RecipesService } from 'src/app/services/recipes.service';
 export class CalendarComponent implements OnInit {
 
   events: any[] = [];
-  favs: string[] = [];
+  favs = [];
+  displayedRecipes: any[] = [];
   calendarOptions: CalendarOptions;
   calendarEvents: any[] = [];
+  selectedLabel: string = '';
+  @ViewChild('modal') modal: any;
 
   constructor(private recipeSrv: RecipesService) {
     this.calendarOptions = {
@@ -32,7 +35,7 @@ export class CalendarComponent implements OnInit {
     const parseUser = JSON.parse(user!);
 
     this.getEvents(parseUser.user.uid);
-    this.getFavs(parseUser.user.uid)
+    this.getIdFavs(parseUser.user.uid)
   }
 
   // Per recuperare la lista degli eventi dell'utente loggato
@@ -43,10 +46,33 @@ export class CalendarComponent implements OnInit {
   }
 
   // Per recuperare la lista dei preferiti dell'utente loggato
-  getFavs(userId: string) {
+  getIdFavs(userId: string) {
     this.recipeSrv.getFavsByUserId(userId).subscribe(res => {
+      console.log(res);
+
       this.favs = res;
+      this.getFavRecipes(res)
     });
+  }
+
+  getFavs(favs: any) {
+    for(let i = 0; i < favs.length; i++) {
+      this.recipeSrv.getRecipeById(favs[0]).subscribe(res => {
+        this.favs = res
+      })
+    }
+  }
+
+
+  // metodo per recuperare i dati delle ricette in base agli id nell'array favs
+  getFavRecipes(favs: string[]) {
+    if (this.favs !== null) {
+      favs.forEach((recipeId) => {
+        this.recipeSrv.getRecipeById(recipeId).subscribe((recipeData) => {
+          this.displayedRecipes.push(recipeData.recipe);
+        });
+      });
+    }
   }
 
   handleEventClick(arg: EventClickArg) {
@@ -59,24 +85,30 @@ export class CalendarComponent implements OnInit {
   }
 
   // Per aggiungere una ricetta (event) al calendario...
-  addEvent(form: NgForm) {
-    this.getUser(form)
+  addEvent(form: NgForm, title: string) {
+    this.getUser(form, title)
   }
 
   // ...recuperando lo user tramite userId...
-  getUser(form: NgForm) {
+  getUser(form: NgForm, title: string) {
     const user = window.localStorage.getItem('token');
     const parseUser = JSON.parse(user!);
 
     this.recipeSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
-      this.updateUserEvents(res, form, parseUser.user.uid);
+      this.updateUserEvents(res, form, parseUser.user.uid, title);
     })
   }
 
   // ...e aggiornando i suoi dati (in questo caso gli eventi)
-  updateUserEvents(id: number, form: NgForm, userId: string) {
-    let newEvent = {
-      title: form.value.idRecipe,
+  updateUserEvents(id: number, form: NgForm, userId: string, title: string) {
+    const user = window.localStorage.getItem('token');
+    const parseUser = JSON.parse(user!);
+
+    this.recipeSrv.getEventsByUserId(parseUser.user.uid).subscribe(res => {
+      this.events = res;
+
+      let newEvent = {
+      title: title,
       date: form.value.date
     }
 
@@ -89,6 +121,7 @@ export class CalendarComponent implements OnInit {
     this.recipeSrv.updateRecord(id, newUser).subscribe(res => {
       console.log('ok', res);
       this.getEvents(userId);
+    })
     })
   }
 
