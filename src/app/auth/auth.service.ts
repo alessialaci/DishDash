@@ -3,18 +3,19 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { FavRecipe } from '../models/fav-recipe.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private fireauth: AngularFireAuth, private firestore: AngularFirestore, private router: Router) { }
+  constructor(private fireauth: AngularFireAuth, private http: HttpClient, private router: Router) { }
 
   // Per fare il login
   login(email: string, password: string) {
     this.fireauth.signInWithEmailAndPassword(email, password).then(res => {
-      localStorage.setItem('token', 'true');
+      localStorage.setItem('token', JSON.stringify(res));
 
       if (res.user?.emailVerified == true) {
         this.router.navigate(['calendar']);
@@ -33,8 +34,7 @@ export class AuthService {
       alert('Registration Successful');
 
       if(res.user) {
-        // this.addUserWithFavRecipes(res.user.uid);
-        this.SetUserDataRegister(res.user.uid)
+        this.setUserData(res.user.uid)
         this.sendEmailForVarification(res.user);
       } else {
         console.log('errore nel caricare fav-recipe');
@@ -42,6 +42,22 @@ export class AuthService {
     }, err => {
       alert(err.message);
       this.router.navigate(['/register']);
+    })
+  }
+
+  // Per popolare il mockAPI con i riferimenti dell'utente registrato
+  setUserData(email: string) {
+    let favs: string[] = [];
+    let events: string[] = [];
+
+    let user = {
+      userId: email,
+      recipes: favs,
+      events: events
+    }
+
+    return this.http.post('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users', user).subscribe(res => {
+      console.log(res);
     })
   }
 
@@ -65,17 +81,6 @@ export class AuthService {
     })
   }
 
-  // Per aggiungere al firestore la lista delle ricette preferite dell'utente
-  // addUserWithFavRecipes(id: string) {
-  //   let favRecipes: string[] = [];
-  //   const userRef = this.firestore.collection('users').doc(id);
-
-  //   return userRef.set({
-  //     id: id,
-  //     favRecipes: favRecipes
-  //   });
-  // }
-
   // Per ripristinare password
   forgotPassword(email: string) {
     this.fireauth.sendPasswordResetEmail(email).then(() => {
@@ -93,21 +98,6 @@ export class AuthService {
     }
     this.router.createUrlTree(['/login']);
     return false;
-  }
-
-  // Imposta i dati dell'utente per il register con username/password
-  SetUserDataRegister(userId: string) {
-    let favs: string[] = [];
-
-    const userRef = this.firestore.doc(
-      `users/${userId}`
-    );
-    const userData: FavRecipe = {
-      recipes: favs
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
   }
 
 }

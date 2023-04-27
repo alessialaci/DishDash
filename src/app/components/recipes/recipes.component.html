@@ -45,7 +45,7 @@
 
   <div class="row justify-content-center" *ngIf="recipes.length > 1">
     <div class="card col-4 m-3" style="width: 18rem;" *ngFor="let recipe of recipes">
-      <span (click)="addToFavorites(recipe.recipe.uri.split('#')[1])"><i class="bi bi-heart"></i></span>
+      <span (click)="addFavRecipe(recipe.recipe.uri.split('#')[1])"><i class="bi bi-heart"></i></span>
       <img src="{{recipe.recipe.image}}" class="card-img-top" alt="{{recipe.recipe.label}}">
       <div class="card-body">
         <h5 class="card-title">{{recipe.recipe.label}}</h5>

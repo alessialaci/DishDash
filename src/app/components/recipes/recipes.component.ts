@@ -4,6 +4,8 @@ import { CuisineType } from 'src/app/enums/cuisine-type.enum';
 import { MealType } from 'src/app/enums/meal-type.enum';
 import { HttpParams } from '@angular/common/http';
 import { RecipesService } from 'src/app/services/recipes.service';
+import { FavRecipe } from 'src/app/models/fav-recipe.interface';
+import { User } from 'src/app/models/user.interface';
 
 @Component({
   selector: 'app-recipes',
@@ -12,7 +14,9 @@ import { RecipesService } from 'src/app/services/recipes.service';
 })
 export class RecipesComponent implements OnInit {
 
+  favs: string[] = [];
   recipes: any[] = [];
+  favRecipes: string[] = [];
   mealTypes = Object.values(MealType);
   cuisineTypes = Object.values(CuisineType);
 
@@ -22,6 +26,7 @@ export class RecipesComponent implements OnInit {
     this.findRecipes();
   }
 
+  // Per recuperare la lista di ricette
   findRecipes() {
     this.recipesSrv.getRecipes('query').subscribe(data => {
       this.recipes = data.hits;
@@ -71,10 +76,33 @@ export class RecipesComponent implements OnInit {
   //   });
   // }
 
-  // -----------------------------------------------------------------------------------------
+  // Per aggiungere una ricetta ai preferiti...
+  addFavRecipe(recipeId: string) {
+    this.getUser(recipeId)
+  }
 
-  addToFavorites(recipeId: string) {
-    console.log('ok');
+  // ...recuperando l'utente tramite l'id...
+  getUser(recipeId: string) {
+    const user = window.localStorage.getItem('token');
+    const parseUser = JSON.parse(user!);
+
+    this.recipesSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
+      console.log(res);
+      this.updateUser(res, recipeId);
+    })
+  }
+
+  // ...e aggiornando i suoi dati (in questo caso i preferiti)
+  updateUser(id: number, recipeId: string) {
+    this.favs.push(recipeId);
+
+    let newUser: Partial<User> = {
+      recipes: this.favs
+    }
+
+    this.recipesSrv.updateRecord(id, newUser).subscribe(res => {
+      console.log(res);
+    })
   }
 
 }

@@ -1,7 +1,24 @@
 <app-navbar></app-navbar>
 
-<div class="w-75 p-5" style="margin: 0 auto">
-  <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
+<div class="container py-5">
+  <div class="row">
+    <div class="col">
+      <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
+    </div>
+    <div class="col">
+      <form #form="ngForm">
+        <input type="text" name="idRecipe" id="idRecipe" ngModel>
+        <input type="date" name="date" id="date" ngModel>
+        <button type="button" (click)="addEvent(form)">Clicca</button>
+      </form>
+
+      <div>
+        <div *ngFor="let fav of favs">
+          <p>{{fav}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-footer></app-footer>
