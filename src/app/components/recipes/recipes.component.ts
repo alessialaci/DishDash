@@ -30,45 +30,51 @@ export class RecipesComponent implements OnInit {
     })
   }
 
-  findSpecificRecipes(q: string) {
-    this.recipesSrv.getRecipes(q).subscribe(data => {
-      this.recipes = data.hits.slice(-3);
-    })
-  }
+  // findSpecificRecipes(q: string) {
+  //   this.recipesSrv.getRecipes(q).subscribe(data => {
+  //     this.recipes = data.hits.slice(-3);
+  //   })
+  // }
 
-  sendFilters(form: NgForm) {
-    const paramsObj: any = {
-      q: 'query',
-      type: 'public',
-      app_id: 'd84b34a5',
-      app_key: '1163caf9de0e70fb5c44bd3e655467c0',
-      field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredientLines', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags'],
-    };
+  // sendFilters(form: NgForm) {
+  //   const paramsObj: any = {
+  //     q: 'query',
+  //     type: 'public',
+  //     app_id: 'd84b34a5',
+  //     app_key: '1163caf9de0e70fb5c44bd3e655467c0',
+  //     field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredientLines', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags'],
+  //   };
 
-    if (form.value.ingredients !== "") {
-      paramsObj.ingr = form.value.ingredients;
-    }
+  //   if (form.value.ingredients !== "") {
+  //     paramsObj.ingr = form.value.ingredients;
+  //   }
 
-    if (form.value.cuisineType !== "") {
-      paramsObj.cuisineType = form.value.cuisineType;
-    }
+  //   if (form.value.cuisineType !== "") {
+  //     paramsObj.cuisineType = form.value.cuisineType;
+  //   }
 
-    if (form.value.mealType !== "") {
-      paramsObj.mealType = form.value.mealType;
-    }
+  //   if (form.value.mealType !== "") {
+  //     paramsObj.mealType = form.value.mealType;
+  //   }
 
-    if (form.value.mincalories !== "" && form.value.maxcalories !== "") {
-      paramsObj.calories = form.value.mincalories + '-' + form.value.maxcalories;
-    }
+  //   if (form.value.mincalories !== "" && form.value.maxcalories !== "") {
+  //     paramsObj.calories = form.value.mincalories + '-' + form.value.maxcalories;
+  //   }
 
-    const params = new HttpParams({ fromObject: paramsObj });
+  //   const params = new HttpParams({ fromObject: paramsObj });
 
-    this.recipesSrv.getFilteredRecipes(params).subscribe(data => {
-      console.log(params);
+  //   this.recipesSrv.getFilteredRecipes(params).subscribe(data => {
+  //     console.log(params);
 
-      this.recipes = data.hits;
-      console.log(data.hits);
-    });
+  //     this.recipes = data.hits;
+  //     console.log(data.hits);
+  //   });
+  // }
+
+  // -----------------------------------------------------------------------------------------
+
+  addToFavorites(recipeId: string) {
+    console.log('ok');
   }
 
 }
