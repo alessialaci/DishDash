@@ -14,14 +14,14 @@ export class HomeComponent implements OnInit {
   constructor(private recipesSrv: RecipesService) { }
 
   ngOnInit(): void {
-    // this.findRecipes();
+    this.findRecipes();
   }
 
-  // findRecipes() {
-  //   this.recipesSrv.getRecipes('query').subscribe(data => {
-  //     this.recipes = data.hits.slice(-3);
-  //     console.log(data);
-  //   })
-  // }
+  findRecipes() {
+    this.recipesSrv.getRecipes('query').subscribe(data => {
+      this.recipes = data.hits.slice(-4);
+      console.log(data);
+    })
+  }
 
 }

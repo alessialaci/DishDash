@@ -78,6 +78,21 @@ export class CalendarComponent implements OnInit {
   handleEventClick(arg: EventClickArg) {
     console.log('ciao');
     console.log('Event:', arg.event);
+
+    let ok = confirm('Do you want to remove the recipe?');
+
+    const titleId = arg.event._def.title;
+
+    if(ok) {
+      arg.event.remove();
+      this.recipeSrv.deleteEvent(titleId).subscribe(response => {
+          console.log('Event removed successfully:', response);
+          arg.event.remove();
+        })
+    } else {
+      return;
+    }
+
   }
 
   handleDateClick(arg: any) {

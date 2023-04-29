@@ -5,7 +5,8 @@
   <hr>
 
   <!-- Filtri -->
-  <button class="btn-categoria mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+  <button class="btn-cta px-2 py-1 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+    aria-expanded="false" aria-controls="collapseExample">Filter</button>
 
   <div class="collapse" id="collapseExample">
     <div class="card card-body rounded-0">
@@ -32,20 +33,25 @@
 
         <div class="form-group py-2 mb-3">
           <label class="fw-bold mb-3" for="ingredients">Ingredients number</label>
-          <input name="ingredients" type="number" class="form-control" id="ingredients" placeholder="5" ngModel>
+          <input name="ingredients" type="number" class="form-control" id="ingredients" min="0" placeholder="5" ngModel>
         </div>
 
         <div class="form-group py-2">
           <label class="fw-bold mb-3" for="calories">Calories</label>
           <div class="input-group">
             <span class="input-group-text">From</span>
-            <input name="mincalories" type="number" aria-label="Min Calories" minlength="0" class="form-control" placeholder="0" ngModel>
+            <input name="mincalories" type="number" aria-label="Min Calories" min="0" class="form-control"
+              placeholder="0" ngModel>
             <span class="input-group-text">To</span>
-            <input name="maxcalories" type="number" aria-label="Max Calories" minlength="0" class="form-control" placeholder="0" ngModel>
+            <input name="maxcalories" type="number" aria-label="Max Calories" min="0" class="form-control"
+              placeholder="0" ngModel>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-warning rounded-0 px-5 my-4" >Confirm</button> <!--(click)="sendFilters(filterForm)"-->
+        <p class="fw-bold text-danger">{{error}}</p>
+        <button type="submit" class="btn btn-confirm rounded-0 px-5 my-4"
+          (click)="sendFilters(filterForm)">Confirm</button>
+        <!--(click)="sendFilters(filterForm)"-->
       </form>
     </div>
   </div>
@@ -53,12 +59,16 @@
   <!-- Lista Ricette -->
   <div class="row justify-content-center py-5" *ngIf="recipes.length > 1">
     <div class="card shadow col-4 m-3" style="width: 18rem;" *ngFor="let recipe of recipes">
-      <span (click)="addFavRecipe(recipe.recipe.uri.split('#')[1])"><i class="bi bi-heart"></i></span>
+      <i *ngIf="isLoggedIn()"
+          class="bi"
+          [ngClass]="{'bi-heart': !isFav(recipe.recipe.uri?.split('#')[1]),
+                      'bi-heart-fill red-heart': isFav(recipe.recipe.uri?.split('#')[1])}"
+          (click)="addFavRecipe(recipe.recipe.uri?.split('#')[1])"></i>
       <img src="{{recipe.recipe.image}}" class="card-img-top" alt="{{recipe.recipe.label}}">
       <div class="card-body">
         <h5 class="card-title">{{recipe.recipe.label}}</h5>
         <p class="card-text">{{recipe.recipe.source}}</p>
-        <a [routerLink]="['/recipes', recipe.recipe.uri.split('#')[1]]" class="btn btn-warning">See more</a>
+        <a [routerLink]="['/recipes', recipe.recipe.uri?.split('#')[1]]" class="btn-confirm">See more</a>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@
 
 * {
   font-family: Montserrat;
+  color: #484847;
 }
 
 h1 {
@@ -19,12 +20,12 @@ a {
   text-decoration: none;
 
   &:hover {
-    color: #DBA23E;
+    color: #EC4E1F;
   }
 }
 
 .a-link {
-  color: #DBA23E;
+  color: #EC4E1F;
   text-decoration: none;
   transition: 0.3s linear;
 
@@ -33,15 +34,28 @@ a {
   }
 }
 
+label {
+  color: #484847;
+  margin-bottom: 5px;
+}
+
+.form-control:focus,
+.form-control:active,
+.form-select:focus,
+.fotm-select:active {
+  border-color: #345834;
+  box-shadow: 0 0 0 0.2rem #88D398;
+}
+
 .form-check-input {
   &:checked {
-    background-color: #086d12;
-    border-color: #086d12;
+    background-color: #345834;
+    border-color: #345834;
   }
 
   &:focus {
-    border-color: #205b12;
-    box-shadow: 0 0 0 0.25rem #096e0a40;
+    border-color: #345834;
+    box-shadow: 0 0 0 0.25rem #3458343f;
   }
 }
 
@@ -55,18 +69,26 @@ a {
   }
 }
 
-.btn-annulla {
-  border: 1px solid transparent;
+.btn-confirm {
+  color: #ffffff;
+  background-color: #345834;
+  border: 2px solid #345834;
 
   &:hover {
-    border: 1px solid #DBA23E;
+    color: #345834;
+    background-color: transparent;
+    border: 2px solid #345834;
+  }
+
+  &:focus {
+    transform: scale(0.95);
   }
 }
 
-.btn-categoria {
+.btn-cta {
   background: none;
-  border: 2px solid #DBA23E;
-  padding: 10px 20px;
+  border: 2px solid #EC4E1F;
+
   min-width: 150px;
   position: relative;
   transition: color 0.4s linear;
@@ -83,7 +105,7 @@ a {
     top: 0;
     width: 100%;
     height: 100%;
-    background: #DBA23E;
+    background: #EC4E1F;
     z-index: -1;
     transition: transform 0.5s;
     transform-origin: 0 0;
@@ -97,6 +119,56 @@ a {
 
   &:focus {
     color: #e6e4e1;
-    background-color: #DBA23E;
+    background-color: #EC4E1F;
   }
 }
+
+.recipe {
+  position: relative;
+  color: white;
+  border-radius: 0;
+
+  &:hover .card-body {
+    color: white;
+    height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  .card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #2e2e2e95;
+    overflow: hidden;
+    width: 100%;
+    height: 12%;
+    transition: .5s ease;
+  }
+}
+
+// @media (min-width: 768px) and (max-width: 1199px) {
+//   .lotto .card-body {
+//     height: 25%;
+//   }
+// }
+
+// @media (min-width: 1200px) {
+//   .lotto .card-body {
+//     height: 20%;
+//   }
+// }
+
+// .ngx-pagination {
+//   .current {
+//     background: #345834 !important;
+//   }
+
+//   .disabled {
+//     color: #8e8e8c !important;
+//   }
+// }

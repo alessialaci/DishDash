@@ -9,7 +9,7 @@
     <div class="col bg-dark bg-opacity-10 p-4">
       <h3>Ingredienti</h3>
       <ul>
-        <li *ngFor="let ingredient of recipe.ingredients"><span *ngIf="ingredient.quantity != 0">{{ingredient.quantity}} </span><span *ngIf="ingredient.measure != '\<unit>'">{{ingredient.measure}} </span>{{ingredient.food}}</li>
+        <li *ngFor="let ingredient of recipe.ingredients"><span *ngIf="ingredient.quantity != 0">{{ingredient.quantity < 1 ? ingredient.quantity.toFixed(2) : ingredient.quantity.toFixed(0)}} </span><span *ngIf="ingredient.measure != '\<unit>'">{{ingredient.measure}} </span>{{ingredient.food}}</li>
       </ul>
     </div>
     <div class="col p-4">
@@ -24,7 +24,7 @@
       </div>
 
 
-      <a href="recipe.url" title="Recipe" class="btn-categoria">See recipe</a>
+      <a href="{{recipe.url}}" target="_blank" title="Recipe" class="btn-cta px-2 py-1">See recipe</a>
     </div>
   </div>
 </div>

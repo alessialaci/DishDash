@@ -3,7 +3,7 @@
 <div class="container-fluid overflow-hidden p-0">
   <video src="../../../assets/img/video.mp4" autoplay muted loop></video>
 
-  <div class="card text-center shadow p-4">
+  <div class="card text-center rounded-0 shadow p-4">
     <div class="card-body">
       <h2 class="mb-4">Register</h2>
       <form class="mb-4">
@@ -19,11 +19,11 @@
           <label for="password" class="form-label"><i class="bi bi-key"></i> Password</label>
         </div>
         <p class="text-danger">{{error}}</p>
-        <button type="button" class="btn-categoria" (click)="register()">Register</button>
+        <button type="button" class="btn-confirm px-4 py-1" (click)="register()">Register</button>
       </form>
 
       <div>
-        <p class="text-secondary m-0">Have already an account? <a class="text-decoration-none" title="Login"
+        <p class="text-secondary m-0">Have already an account? <a class="a-link" title="Login"
             routerLink="/login">Login</a></p>
       </div>
     </div>

@@ -1,23 +1,8 @@
-// nav {
-//   box-shadow: 2px 0px 10px #2a2a2a;
-// }
-
 .navbar-nav {
   --bs-nav-link-padding-y: 0;
 }
 
 .nav-link.active {
-  color: #DBA23E;
+  color: #88D398;
   font-weight: bold;
-}
-
-.logout {
-  color: #ad1f1f;
-  font-weight: bold;
-  cursor: pointer;
-
-  &:hover {
-    color: white;
-    background-color: #ad1f1f;
-  }
 }

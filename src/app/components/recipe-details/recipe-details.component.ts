@@ -15,17 +15,17 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     let recipeId = this.ar.snapshot.params["id"];
-    // console.log(recipeId);
-    // this.findRecipe(recipeId);
+    console.log(recipeId);
+    this.findRecipe(recipeId);
   }
 
-  // findRecipe(id: string) {
-  //   this.recipeSrv.getRecipeById(id).subscribe(response => {
-  //     this.recipe = response.recipe;
-  //     console.log(this.recipe);
+  findRecipe(id: string) {
+    this.recipeSrv.getRecipeById(id).subscribe(response => {
+      this.recipe = response.recipe;
+      console.log(this.recipe);
 
-  //   });
-  // }
+    });
+  }
 
   getBackgroundImageStyle(imageUrl: string) {
     return {

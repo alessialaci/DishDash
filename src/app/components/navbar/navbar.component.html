@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg shadow">
   <div class="container">
-    <a class="navbar-brand" href="#"><img src="../../../assets/img/logo-bianco.png" alt="Logo" width="150px"></a>
+    <a class="navbar-brand" href="#"><img src="../../../assets/img/logo-completo.png" alt="Logo" width="200px"></a>
     <button class="navbar-toggler shadow-none border-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <i class="bi bi-list text-light"></i>
     </button>
@@ -23,10 +23,10 @@
           <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a>
         </li>
         <li class="nav-item m-2" *ngIf="!isLoggedIn()">
-          <a class="btn-categoria text-light p-2" [routerLink]="['/register']" routerLinkActive="active">Sign Up</a>
+          <a class="btn-cta px-2 py-1" [routerLink]="['/register']" routerLinkActive="active">Sign Up</a>
         </li>
         <li class="nav-item m-2" *ngIf="isLoggedIn()">
-          <a class="nav-link" (click)="logout()">Logout</a>
+          <a class="btn-cta px-2 py-1" (click)="logout()">Logout</a>
         </li>
       </ul>
     </div>

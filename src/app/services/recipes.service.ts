@@ -20,7 +20,7 @@ export class RecipesService {
       app_id: 'd84b34a5',
       app_key: '1163caf9de0e70fb5c44bd3e655467c0',
       field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredients', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags', 'uri', 'url' ],
-      count: 20
+      page: '1'
     }});
 
     return this.http.get('https://api.edamam.com/api/recipes/v2', { headers, params });
@@ -48,6 +48,22 @@ export class RecipesService {
     return this.http.put(`https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/${id}`, user)
   }
 
+  deleteEvent(title: string): Observable<any> {
+    return this.http.get<any>('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/events').pipe(
+      map(data => {
+        const eventToDelete = data.find((event: any) => event.title === title);
+
+        if (eventToDelete) {
+          const index = data.indexOf(eventToDelete);
+          data.splice(index, 1);
+          return this.http.put('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/events', data);
+        } else {
+          throw new Error(`Event with title ${title} not found.`);
+        }
+      })
+    );
+  }
+
   getUserByUserId(userId: string) {
     const url = `https://64493726b88a78a8f001273f.mockapi.io/api/v1/users?userId=${userId}`;
     return this.http.get<any[]>(url).pipe(
@@ -63,7 +79,7 @@ export class RecipesService {
     return this.http.get<any[]>(url).pipe(
       map(users => {
         const user = users.find(u => u.userId === userId);
-        return user ? user.events : null;
+        return user ? user.events : [];
       })
     );
   }
@@ -73,7 +89,7 @@ export class RecipesService {
     return this.http.get<any[]>(url).pipe(
       map(users => {
         const user = users.find(u => u.userId === userId);
-        return user ? user.recipes : null;
+        return user ? user.recipes : [];
       })
     );
   }
