@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { FavRecipe } from 'src/app/models/fav-recipe.interface';
-import { User } from 'src/app/models/user.interface';
+import { EventsService } from 'src/app/services/events.service';
 import { RecipesService } from 'src/app/services/recipes.service';
+import { UsersService } from 'src/app/services/users.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-calendar',
@@ -14,129 +15,116 @@ import { RecipesService } from 'src/app/services/recipes.service';
 export class CalendarComponent implements OnInit {
 
   events: any[] = [];
-  favs = [];
-  displayedRecipes: any[] = [];
+  favs: any[] = [];
+  userId!: number;
   calendarOptions: CalendarOptions;
   calendarEvents: any[] = [];
   selectedLabel: string = '';
-  @ViewChild('modal') modal: any;
+  paginaCorrente: number = 1;
 
-  constructor(private recipeSrv: RecipesService) {
+
+  constructor(private recipesSrv: RecipesService, private usersSrv: UsersService, private eventsSrv: EventsService) {
     this.calendarOptions = {
       plugins: [dayGridPlugin],
       initialView: 'dayGridWeek', //dayGridMonth
       events: this.calendarEvents,
-      eventClick: this.handleEventClick.bind(this)
+      eventClick: this.deleteEvent.bind(this)
     };
   }
 
   ngOnInit(): void {
+    this.getUser();
+  }
+
+  // Per recuperare l'utente loggato tramite user id (e tutti gli eventi/preferiti)
+  getUser() {
     const user = window.localStorage.getItem('token');
     const parseUser = JSON.parse(user!);
 
-    this.getEvents(parseUser.user.uid);
-    this.getIdFavs(parseUser.user.uid)
+    this.usersSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
+      this.userId = res;
+
+      this.getEvents(res);
+      this.getIdFavs(parseUser.user.uid);
+    })
   }
 
   // Per recuperare la lista degli eventi dell'utente loggato
   getEvents(userId: string) {
-    this.recipeSrv.getEventsByUserId(userId).subscribe(res => {
+    this.eventsSrv.getEvents(userId).subscribe(res => {
       this.calendarEvents = res;
     });
   }
 
-  // Per recuperare la lista dei preferiti dell'utente loggato
+  // Per recuperare tutti gli id dei preferiti dell'utente loggato
   getIdFavs(userId: string) {
-    this.recipeSrv.getFavsByUserId(userId).subscribe(res => {
-      console.log(res);
-
-      this.favs = res;
-      this.getFavRecipes(res)
+    this.usersSrv.getFavsByUserId(userId).subscribe(res => {
+      this.getFavRecipes(res);
     });
   }
 
-  getFavs(favs: any) {
-    for(let i = 0; i < favs.length; i++) {
-      this.recipeSrv.getRecipeById(favs[0]).subscribe(res => {
-        this.favs = res
-      })
-    }
-  }
-
-
-  // metodo per recuperare i dati delle ricette in base agli id nell'array favs
+  // Per recuperare tutti i dati delle ricette in base agli id dell'array favs
   getFavRecipes(favs: string[]) {
     if (this.favs !== null) {
       favs.forEach((recipeId) => {
-        this.recipeSrv.getRecipeById(recipeId).subscribe((recipeData) => {
-          this.displayedRecipes.push(recipeData.recipe);
+        this.recipesSrv.getRecipeById(recipeId).subscribe((recipeData) => {
+          this.favs.push(recipeData.recipe);
         });
       });
     }
   }
 
-  handleEventClick(arg: EventClickArg) {
-    console.log('ciao');
-    console.log('Event:', arg.event);
-
-    let ok = confirm('Do you want to remove the recipe?');
-
-    const titleId = arg.event._def.title;
-
-    if(ok) {
-      arg.event.remove();
-      this.recipeSrv.deleteEvent(titleId).subscribe(response => {
-          console.log('Event removed successfully:', response);
-          arg.event.remove();
-        })
-    } else {
-      return;
-    }
-
-  }
-
-  handleDateClick(arg: any) {
-    console.log('date click! ' + arg.dateStr);
-  }
-
-  // Per aggiungere una ricetta (event) al calendario...
+  // Per aggiungere un evento...
   addEvent(form: NgForm, title: string) {
-    this.getUser(form, title)
-  }
-
-  // ...recuperando lo user tramite userId...
-  getUser(form: NgForm, title: string) {
-    const user = window.localStorage.getItem('token');
-    const parseUser = JSON.parse(user!);
-
-    this.recipeSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
-      this.updateUserEvents(res, form, parseUser.user.uid, title);
-    })
+    this.updateUserEvents(this.userId, form, title);
   }
 
   // ...e aggiornando i suoi dati (in questo caso gli eventi)
-  updateUserEvents(id: number, form: NgForm, userId: string, title: string) {
+  updateUserEvents(id: number, form: NgForm, title: string) {
     const user = window.localStorage.getItem('token');
     const parseUser = JSON.parse(user!);
 
-    this.recipeSrv.getEventsByUserId(parseUser.user.uid).subscribe(res => {
-      this.events = res;
-
-      let newEvent = {
+    let newEvent = {
       title: title,
       date: form.value.date
     }
 
-    this.events.push(newEvent);
+    this.eventsSrv.addEvent(newEvent, id).subscribe(res => {
+      this.events.push(res);
 
-    let newUser: Partial<User> = {
-      events: this.events
-    }
-
-    this.recipeSrv.updateRecord(id, newUser).subscribe(res => {
-      console.log('ok', res);
-      this.getEvents(userId);
+      this.usersSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
+        this.getEvents(res);
+      })
     })
+  }
+
+  // Per eliminare un evento al click sul calendario
+  deleteEvent(arg: EventClickArg) {
+    const user = window.localStorage.getItem('token');
+    const parseUser = JSON.parse(user!);
+
+    Swal.fire({
+      title: 'Do you want to remove the recipe?',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#A5A6A0',
+      confirmButtonColor: '#345834',
+      confirmButtonText: 'Confirm'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usersSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
+          this.eventsSrv.deleteEvent(parseInt(arg.event._def.publicId), res).subscribe(response => {
+            arg.event.remove();
+          })
+        })
+        Swal.fire(
+          'Deleted!',
+          'Recipe has been deleted.',
+          'success'
+        )
+      } else {
+        return;
+      }
     })
   }
 

@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Per fare il login
   login() {
     if (this.email == '' || this.password == '') {
       this.error = 'Please insert correct credentials.';

@@ -17,10 +17,10 @@ export class HomeComponent implements OnInit {
     this.findRecipes();
   }
 
+  // Per recuperare le ultime 4 ricette
   findRecipes() {
-    this.recipesSrv.getRecipes('query').subscribe(data => {
+    this.recipesSrv.getRecipes('italian').subscribe(data => {
       this.recipes = data.hits.slice(-4);
-      console.log(data);
     })
   }
 

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CuisineType } from 'src/app/enums/cuisine-type.enum';
 import { MealType } from 'src/app/enums/meal-type.enum';
 import { HttpParams } from '@angular/common/http';
 import { RecipesService } from 'src/app/services/recipes.service';
-import { FavRecipe } from 'src/app/models/fav-recipe.interface';
 import { User } from 'src/app/models/user.interface';
 import { AuthService } from 'src/app/auth/auth.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-recipes',
@@ -21,13 +21,14 @@ export class RecipesComponent implements OnInit {
   cuisineTypes = Object.values(CuisineType);
   error: string = '';
 
-  constructor(private recipesSrv: RecipesService, private authSrv: AuthService) { }
+  constructor(private recipesSrv: RecipesService, private usersSrv: UsersService, private authSrv: AuthService) { }
 
   ngOnInit(): void {
     this.findRecipes();
     this.getIdFavs();
   }
 
+  // Per controllare se l'utente è loggato
   isLoggedIn() {
     return this.authSrv.isLoggedIn();
   }
@@ -36,38 +37,39 @@ export class RecipesComponent implements OnInit {
   findRecipes() {
     this.recipesSrv.getRecipes('query').subscribe(data => {
       this.recipes = data.hits;
-      console.log(data);
     })
   }
 
-  // Per recuperare la lista dei preferiti dell'utente loggato
+  // Per recuperare tutti gli id dei preferiti dell'utente loggato
   getIdFavs() {
     const user = window.localStorage.getItem('token');
     const parseUser = JSON.parse(user!);
 
-    this.recipesSrv.getFavsByUserId(parseUser.user.uid).subscribe(res => {
-      console.log(res);
-
+    this.usersSrv.getFavsByUserId(parseUser.user.uid).subscribe(res => {
       this.favs = res;
     });
   }
 
-  findSpecificRecipes(q: string) {
-    this.recipesSrv.getRecipes(q).subscribe(data => {
-      this.recipes = data.hits.slice(-3);
-    })
-  }
-
+  // Per filtrare le ricette
   sendFilters(form: NgForm) {
+    let query: string;
+    if(form.value.cuisineType !== '') {
+      query = form.value.cuisineType
+    } else if(form.value.mealType !== '') {
+      query = form.value.mealType
+    } else {
+      query = 'query'
+    }
+
     const paramsObj: any = {
-      q: 'query',
+      q: query,
       type: 'public',
       app_id: 'd84b34a5',
       app_key: '1163caf9de0e70fb5c44bd3e655467c0',
-      field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredientLines', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags'],
+      field: ['calories', 'cuisineType', 'dishType', 'image', 'ingredients', 'label', 'healthLabels', 'mealType', 'source', 'totalTime', 'tags', 'uri', 'url'],
     };
 
-    if (form.value.ingredients !== "") {
+    if (form.value.ingredients !== '') {
       if(form.value.ingredients > 1) {
         paramsObj.ingr = form.value.ingredients;
       } else {
@@ -76,15 +78,15 @@ export class RecipesComponent implements OnInit {
       }
     }
 
-    if (form.value.cuisineType !== "") {
+    if (form.value.cuisineType !== '') {
       paramsObj.cuisineType = form.value.cuisineType;
     }
 
-    if (form.value.mealType !== "") {
+    if (form.value.mealType !== '') {
       paramsObj.mealType = form.value.mealType;
     }
 
-    if (form.value.mincalories !== "" && form.value.maxcalories !== "") {
+    if (form.value.mincalories !== '' && form.value.maxcalories !== '') {
       if(form.value.mincalories > 1 && form.value.maxcalories > 1) {
         paramsObj.calories = form.value.mincalories + '-' + form.value.maxcalories;
       } else {
@@ -97,12 +99,16 @@ export class RecipesComponent implements OnInit {
 
     this.recipesSrv.getFilteredRecipes(params).subscribe(data => {
       this.recipes = data.hits;
-      this.getIdFavs();
-      console.log(data.hits);
+      console.log(data);
+
     });
+
+    console.log('fav');
+
+    this.getIdFavs();
   }
 
-  // Per aggiungere una ricetta ai preferiti...
+  // Per aggiungere/eliminare una ricetta dai preferiti...
   addFavRecipe(recipeId: string) {
     this.getUser(recipeId)
   }
@@ -112,14 +118,14 @@ export class RecipesComponent implements OnInit {
     const user = window.localStorage.getItem('token');
     const parseUser = JSON.parse(user!);
 
-    this.recipesSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
+    this.usersSrv.getUserByUserId(parseUser.user.uid).subscribe(res => {
       this.updateUser(res, recipeId, parseUser.user.uid);
     })
   }
 
-  // ...e aggiornando i suoi dati (in questo caso i preferiti)
+  // ...e aggiornando i suoi preferiti
   updateUser(id: number, recipeId: string, userId: string) {
-    this.recipesSrv.getFavsByUserId(userId).subscribe(res => {
+    this.usersSrv.getFavsByUserId(userId).subscribe(res => {
       this.favs = res;
 
       const index = this.favs.indexOf(recipeId);
@@ -133,14 +139,22 @@ export class RecipesComponent implements OnInit {
         recipes: this.favs
       }
 
-      this.recipesSrv.updateRecord(id, newUser).subscribe(res => {
+      this.usersSrv.updateFavs(id, newUser).subscribe(res => {
         console.log(res);
       })
     });
   }
 
+  // Per controllare se una ricetta fa parte dei preferiti
   isFav(recipeId: string) {
     return this.favs.includes(recipeId);
   }
+
+  // Per recuperare le ricette tramite una parola specifica
+  // findSpecificRecipes(q: string) {
+  //   this.recipesSrv.getRecipes(q).subscribe(data => {
+  //     this.recipes = data.hits.slice(-3);
+  //   })
+  // }
 
 }

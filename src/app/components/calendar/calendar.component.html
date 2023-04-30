@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<!-- Modal -->
+<!-- Modale aggiungi evento -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -10,12 +10,15 @@
       </div>
       <div class="modal-body">
         <form #form="ngForm">
-          <input type="date" name="date" id="date" ngModel>
+          <div class="form-group mb-3">
+            <label for="date" class="form-label">Insert a date</label>
+            <input type="date" class="form-control" name="date" id="date" required ngModel>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addEvent(form, selectedLabel)">Save changes</button>
+        <button type="button" class="btn-annulla px-4 py-2" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn-confirm px-4 py-2" [disabled]="form.invalid" data-bs-dismiss="modal" (click)="addEvent(form, selectedLabel)">Confirm</button>
       </div>
     </div>
   </div>
@@ -26,23 +29,39 @@
   <hr>
 
   <div class="row">
+    <!-- Calendario -->
     <div class="col-12 col-lg-6 py-4">
       <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
     </div>
+
+    <!-- Lista Preferiti -->
     <div class="col-12 col-lg-6 py-4">
-      <div>
-        <h2>Lista preferiti</h2>
-        <div *ngFor="let fav of displayedRecipes">
-          <div class="d-flex justify-content-between bg-success p-2 my-3">
-            <div>
-              <p class="fw-bold m-0">{{fav.label}}</p>
-              <p>{{fav.source}}</p>
+      <div class="ps-5">
+        <h2>Favorite recipes</h2>
+        <div *ngFor="let fav of favs | paginate: {itemsPerPage: 5, currentPage: paginaCorrente}">
+          <div class="d-flex justify-content-between align-items-center my-3" style="background-color: #88D398;">
+            <div class="d-flex align-items-center">
+              <img src="{{fav.image}}" alt="{{fav.label}}" width="80px" height="80px">
+              <div class="p-2">
+                <p class="fw-bold m-0">{{fav.label}}</p>
+                <p>{{fav.source}}</p>
+              </div>
             </div>
-            <div>
-              <a [routerLink]="['recipes', fav.uri.split('#')[1]]">See recipe</a>
-              <button class="btn" (click)="selectedLabel=fav.label;" data-bs-toggle="modal" data-bs-target="#exampleModal">Add to Calendar</button>
+            <div class="me-3">
+              <div>
+                <a class="" [routerLink]="['/recipes', fav.uri.split('#')[1]]"><i class="bi bi-eye" style="background-color: #EC4E1F;"></i></a>
+              </div>
+              <div>
+                <button class="p-0 border-0" (click)="selectedLabel=fav.label;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-calendar-plus" style="background-color: #345834;"></i></button>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="text-center py-5" *ngIf="favs.length < 1">
+          <img src="../../../assets/img/no-recipes.png" alt="No recipes" width="300px">
+        </div>
+        <div class="text-center my-5">
+          <pagination-controls (pageChange)="paginaCorrente = $event"></pagination-controls>
         </div>
       </div>
     </div>

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { FavRecipe } from '../models/fav-recipe.interface';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2'
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +17,16 @@ export class AuthService {
       localStorage.setItem('token', JSON.stringify(res));
 
       if (res.user?.emailVerified == true) {
-        this.router.navigate(['calendar']);
+        this.router.navigate(['recipes']);
       } else {
         this.router.navigate(['verify-email']);
       }
     }, err => {
-      alert(err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.message,
+      })
       this.router.navigate(['login']);
     })
   }
@@ -31,16 +34,26 @@ export class AuthService {
   // Per fare il signup
   register(email: string, password: string) {
     this.fireauth.createUserWithEmailAndPassword(email, password).then(res => {
-      alert('Registration Successful');
 
       if(res.user) {
         this.setUserData(res.user.uid)
         this.sendEmailForVarification(res.user);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          showConfirmButton: false,
+          timer: 1500
+        })
       } else {
         console.log('errore nel caricare fav-recipe');
       }
     }, err => {
-      alert(err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.message,
+      })
       this.router.navigate(['/register']);
     })
   }
@@ -48,12 +61,10 @@ export class AuthService {
   // Per popolare il mockAPI con i riferimenti dell'utente registrato
   setUserData(email: string) {
     let favs: string[] = [];
-    let events: string[] = [];
 
     let user = {
       userId: email,
-      recipes: favs,
-      events: events
+      recipes: favs
     }
 
     return this.http.post('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users', user).subscribe(res => {
@@ -67,17 +78,24 @@ export class AuthService {
       localStorage.removeItem('token');
       this.router.navigate(['/login']);
     }, err => {
-      alert(err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.message,
+      })
     })
   }
 
   // Per inviare email di verifica
   sendEmailForVarification(user: any) {
-    console.log(user);
     user.sendEmailVerification().then((res: any) => {
       this.router.navigate(['/verify-email']);
     }, (err: any) => {
-      alert('Something went wrong. Not able to send mail to your email.')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong. Not able to send mail to your email.',
+      })
     })
   }
 
@@ -86,7 +104,11 @@ export class AuthService {
     this.fireauth.sendPasswordResetEmail(email).then(() => {
       this.router.navigate(['/verify-email']);
     }, err => {
-      alert('Something went wrong');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong.',
+      })
     })
   }
 

@@ -24,6 +24,8 @@ import { environment } from 'src/environments/environment';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { RegisterComponent } from './components/register/register.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { CapitalCasePipe } from './pipes/capital-case.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     RecipeDetailsComponent,
     ForgotPasswordComponent,
     RegisterComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    CapitalCasePipe
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

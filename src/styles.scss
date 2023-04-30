@@ -1,6 +1,7 @@
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+// General
 * {
   font-family: Montserrat;
   color: #484847;
@@ -34,6 +35,7 @@ a {
   }
 }
 
+// Forms
 label {
   color: #484847;
   margin-bottom: 5px;
@@ -59,16 +61,7 @@ label {
   }
 }
 
-.fc .fc-button-primary {
-  background-color: #205b12;
-  border-color: #205b12;
-
-  &:hover {
-    background-color: #096e0b;
-    border-color: #096e0b;
-  }
-}
-
+// Buttons
 .btn-confirm {
   color: #ffffff;
   background-color: #345834;
@@ -77,7 +70,30 @@ label {
   &:hover {
     color: #345834;
     background-color: transparent;
-    border: 2px solid #345834;
+  }
+
+  &:focus {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+
+    &:hover {
+      color: #ffffff;
+      background-color: #345834;
+    }
+  }
+}
+
+.btn-annulla {
+  color: #A5A6A0;
+  border: 2px solid #A5A6A0;
+
+  &:hover {
+    color: #ffffff;
+    background-color: #A5A6A0;
+    border: 2px solid #A5A6A0;
   }
 
   &:focus {
@@ -123,6 +139,7 @@ label {
   }
 }
 
+// Card ricette
 .recipe {
   position: relative;
   color: white;
@@ -130,7 +147,7 @@ label {
 
   &:hover .card-body {
     color: white;
-    height: 100%;
+    height: 70%;
   }
 
   img {
@@ -151,24 +168,40 @@ label {
   }
 }
 
-// @media (min-width: 768px) and (max-width: 1199px) {
-//   .lotto .card-body {
-//     height: 25%;
-//   }
-// }
+// Calendar
+.fc .fc-toolbar-title {
+  font-size: 30px;
+}
 
-// @media (min-width: 1200px) {
-//   .lotto .card-body {
-//     height: 20%;
-//   }
-// }
+.fc .fc-button-primary {
+  background-color: #205b12;
+  border-color: #205b12;
 
-// .ngx-pagination {
-//   .current {
-//     background: #345834 !important;
-//   }
+  &:hover {
+    background-color: #096e0b;
+    border-color: #096e0b;
+  }
+}
 
-//   .disabled {
-//     color: #8e8e8c !important;
-//   }
-// }
+.fc .fc-button .fc-icon {
+  color: #ffffff;
+}
+
+.fc-daygrid-event {
+  cursor: pointer;
+  background-color: #88D398;
+  border: none;
+  padding: 3px;
+  white-space: pre-wrap;
+}
+
+// Pagination
+.ngx-pagination {
+  .current {
+    background: #88D398 !important;
+  }
+
+  .disabled {
+    color: #8e8e8c !important;
+  }
+}

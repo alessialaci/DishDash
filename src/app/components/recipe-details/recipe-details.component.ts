@@ -11,22 +11,21 @@ export class RecipeDetailsComponent implements OnInit {
 
   recipe: any;
 
-  constructor(private recipeSrv: RecipesService, private ar: ActivatedRoute) { }
+  constructor(private recipesSrv: RecipesService, private ar: ActivatedRoute) { }
 
   ngOnInit(): void {
     let recipeId = this.ar.snapshot.params["id"];
-    console.log(recipeId);
     this.findRecipe(recipeId);
   }
 
+  // Per recuperare la ricetta tramite id
   findRecipe(id: string) {
-    this.recipeSrv.getRecipeById(id).subscribe(response => {
+    this.recipesSrv.getRecipeById(id).subscribe(response => {
       this.recipe = response.recipe;
-      console.log(this.recipe);
-
     });
   }
 
+  // Per impostare l'immagine della ricetta come sfondo nel css
   getBackgroundImageStyle(imageUrl: string) {
     return {
       'background-image': `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${imageUrl})`

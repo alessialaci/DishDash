@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { FavRecipe } from '../models/fav-recipe.interface';
 import { User } from '../models/user.interface';
 
@@ -38,60 +38,6 @@ export class RecipesService {
 
   addFavRecipe(favs: FavRecipe) {
     return this.http.post('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users', favs)
-  }
-
-  getRecords(): Observable<any> {
-    return this.http.get<any[]>('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users')
-  }
-
-  updateRecord(id: number, user: Partial<User>) {
-    return this.http.put(`https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/${id}`, user)
-  }
-
-  deleteEvent(title: string): Observable<any> {
-    return this.http.get<any>('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/events').pipe(
-      map(data => {
-        const eventToDelete = data.find((event: any) => event.title === title);
-
-        if (eventToDelete) {
-          const index = data.indexOf(eventToDelete);
-          data.splice(index, 1);
-          return this.http.put('https://64493726b88a78a8f001273f.mockapi.io/api/v1/users/events', data);
-        } else {
-          throw new Error(`Event with title ${title} not found.`);
-        }
-      })
-    );
-  }
-
-  getUserByUserId(userId: string) {
-    const url = `https://64493726b88a78a8f001273f.mockapi.io/api/v1/users?userId=${userId}`;
-    return this.http.get<any[]>(url).pipe(
-      map(users => {
-        const user = users.find(u => u.userId === userId);
-        return user ? user.id : null;
-      })
-    );
-  }
-
-  getEventsByUserId(userId: string) {
-    const url = `https://64493726b88a78a8f001273f.mockapi.io/api/v1/users?userId=${userId}`;
-    return this.http.get<any[]>(url).pipe(
-      map(users => {
-        const user = users.find(u => u.userId === userId);
-        return user ? user.events : [];
-      })
-    );
-  }
-
-  getFavsByUserId(userId: string) {
-    const url = `https://64493726b88a78a8f001273f.mockapi.io/api/v1/users?userId=${userId}`;
-    return this.http.get<any[]>(url).pipe(
-      map(users => {
-        const user = users.find(u => u.userId === userId);
-        return user ? user.recipes : [];
-      })
-    );
   }
 
 }

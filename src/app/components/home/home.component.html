@@ -1,11 +1,13 @@
 <app-navbar></app-navbar>
 
+<!-- Intro -->
 <section>
   <img src="../../../assets/img/food-vecteezy.jpg" alt="Food">
   <div class="intro text-center p-5">
-    <h1 class="mb-4">PLAN YOUR<br>WEEKLY <span>DISHES</span>!</h1>
-    <h4 class="mb-4">With DishDash you can easly plan your week<br>with your favourite meals.</h4>
-    <a class="d-inline-block btn-cta px-5 py-3 mt-4" [routerLink]="['recipes']">Start now!</a>
+    <h1 data-aos="fade-right" data-aos-duration="2000" class="mb-4">PLAN YOUR<br>WEEKLY <span>DISHES</span>!</h1>
+    <h4 data-aos="fade-left" data-aos-duration="2000" class="mb-4">With DishDash you can easly plan your week<br>with
+      your favourite meals.</h4>
+    <a data-aos="fade-zoom-in" class="d-inline-block btn-cta px-5 py-3 mt-4" [routerLink]="['recipes']">Start now!</a>
   </div>
 </section>
 
@@ -16,19 +18,21 @@
   </path>
 </svg>
 
+<!-- Sezione ultime ricette -->
 <div class="container text-center py-5">
-  <h2 class="mb-5">Last Recipes</h2>
+  <h2 class="mb-5" data-aos="fade-left">Last Recipes</h2>
 
   <div class="row justify-content-center mb-4">
-    <div class="card col-4 recipe shadow p-0 m-3" *ngFor="let recipe of recipes" style="width: 18rem;">
+    <div data-aos="fade-zoom-in" class="card col-4 recipe shadow p-0 m-3" *ngFor="let recipe of recipes" style="width: 18rem;">
       <span class="position-absolute end-0 badge rounded-0" style="background-color: #EC4E1F; top: 30px;">
-        {{recipe.recipe.time}}
+        {{recipe.recipe.totalTime}}m
       </span>
       <img src="{{recipe.recipe.image}}" class="card-img-top" alt="{{recipe.recipe.label}}">
       <div class="card-body text-start py-2 px-4">
         <h5 class="card-title text-light">{{recipe.recipe.label}}</h5>
         <p class="card-text text-light">{{recipe.recipe.source}}</p>
-        <a class="btn-confirm text-light px-4 py-2" [routerLink]="['/recipes', recipe.recipe.uri?.split('#')[1]]">See more</a>
+        <a class="btn-confirm text-light px-4 py-2" [routerLink]="['/recipes', recipe.recipe.uri?.split('#')[1]]">See
+          more</a>
       </div>
     </div>
   </div>
@@ -36,39 +40,61 @@
   <a class="d-inline-block btn-cta px-4 py-2" [routerLink]="['/recipes']" title="Recipes">See all</a>
 </div>
 
-
+<!-- Sezione immagine fixed -->
 <div class="background my-5"></div>
 
+<!-- Sezione spiegazione Calendar -->
 <div class="container text-center my-5">
   <div class="row">
-    <div class="col-6 p-5">
-      <h2>Plan your weekly recipes!</h2>
-      <p>Use our cool calendar to mark what recipes do you'll cook<br>and make your live more easier.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt enim quaerat ab ducimus omnis tempore corrupti
-        hic aspernatur fugit. Officiis, accusamus. Consequatur perferendis maxime quam quod consectetur ut reiciendis
-        at? Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit optio nostrum recusandae beatae inventore.
-        Repellendus recusandae quo id ad voluptatem sint earum. Quas fugiat cum possimus provident dolor nisi alias!</p>
+    <div class="col-12 col-lg-6 p-5">
+      <h2 data-aos="fade-right">Plan your weekly recipes!</h2>
+      <p data-aos="fade-right">With our customizable calendar, you can easily plan the meals of the week and guarantee a varied and tasty cuisine.</p>
+      <p data-aos="fade-right">Planning weekly recipes is a great way to save time and money, avoiding waste and better organizing your shopping. You can choose from hundreds of recipes, divided into categories, and add them to your calendar with a simple click.</p>
+      <p data-aos="fade-right">Don't waste any more time, sign up now for Plan your weekly recipes and start enjoying new delicious and healthy dishes every day!</p>
     </div>
-    <div class="col-6">
-      <img src="../../../assets/img/graphic-food-vecteezy.jpg" alt="Calendar" width="400px">
+    <div data-aos="fade-zoom-in" class="col-12 col-lg-6">
+      <img class="shadow" src="../../../assets/img/calendar.jpg" alt="Calendar" width="500px">
     </div>
   </div>
 </div>
 
+<!-- Sezione tipi cucine -->
 <div class="container text-center my-5">
   <div class="row">
-    <div class="col-6">
-      <img src="../../../assets/img/graphic-food-vecteezy.jpg" alt="Calendar" width="400px">
+    <div class="col-12 col-lg-6 p-5 d-flex justify-content-center flex-wrap order-2 order-lg-1">
+      <div class="food p-0" data-aos="fade-zoom-in">
+        <img class="rounded-circle m-2" src="../../../assets/img/italian-food.jpg" alt="Italian food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">Italian</span>
+      </div>
+      <div class="food p-0" data-aos="fade-zoom-in" data-aos-delay="100">
+        <img class="rounded-circle m-2" src="../../../assets/img/american-food.jpg" alt="American food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">American</span>
+      </div>
+      <div class="food p-0" data-aos="fade-zoom-in" data-aos-delay="200">
+        <img class="rounded-circle m-2" src="../../../assets/img/chinese-food.jpg" alt="Chinese food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">Chinese</span>
+      </div>
+      <div class="food p-0" data-aos="fade-zoom-in" data-aos-delay="300">
+        <img class="rounded-circle m-2" src="../../../assets/img/japanese-food.jpg" alt="Japanese food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">Japanese</span>
+      </div>
+      <div class="food p-0" data-aos="fade-zoom-in" data-aos-delay="400">
+        <img class="rounded-circle m-2" src="../../../assets/img/french-food.jpg" alt="French food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">French</span>
+      </div>
+      <div class="food p-0" data-aos="fade-zoom-in" data-aos-delay="500">
+        <img class="rounded-circle m-2" src="../../../assets/img/mexican-food.jpg" alt="Mexincan food" width="150px">
+        <span class="d-flex justify-content-center align-items-center">Mexincan</span>
+      </div>
     </div>
-    <div class="col-6 p-5">
-      <h2>Discover recipes from all over the world</h2>
-      <p>Use our cool calendar to mark what recipes do you'll cook<br>and make your live more easier.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt enim quaerat ab ducimus omnis tempore corrupti
-        hic aspernatur fugit. Officiis, accusamus. Consequatur perferendis maxime quam quod consectetur ut reiciendis
-        at? Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit optio nostrum recusandae beatae inventore.
-        Repellendus recusandae quo id ad voluptatem sint earum. Quas fugiat cum possimus provident dolor nisi alias!</p>
+    <div class="col-12 col-lg-6 p-5 order-1 order-lg-2">
+      <h2 data-aos="fade-left">Discover recipes from all over the world</h2>
+      <p data-aos="fade-left">Here you will find a large selection of recipes from all over the world, divided into numerous categories to suit all tastes.</p>
+      <p data-aos="fade-left">Choose from Italian, Asian, Mexican, American, Vegan recipes and many more.</p>
     </div>
   </div>
+
+  <a class="d-inline-block btn-cta px-4 py-2" [routerLink]="['/recipes']" title="Recipes">See all</a>
 </div>
 
 <!-- Seconda onda -->

@@ -15,9 +15,9 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Per inviare l'email e recuperare la password
   forgotPassword() {
     this.auth.forgotPassword(this.email);
-    this.email = '';
   }
 
 }

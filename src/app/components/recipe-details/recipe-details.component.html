@@ -1,30 +1,29 @@
 <app-navbar></app-navbar>
 
-<div id="img-recipe" class="text-center p-5" [ngStyle]="getBackgroundImageStyle(recipe.image)">
-  <h1 class="text-light fw-bold">{{recipe.label}}</h1>
+<div id="img-recipe" class="text-center p-5" [ngStyle]="getBackgroundImageStyle(recipe?.image)">
+  <h1 class="text-light fw-bold">{{recipe?.label}}</h1>
 </div>
 
 <div class="container p-5">
   <div class="row">
-    <div class="col bg-dark bg-opacity-10 p-4">
-      <h3>Ingredienti</h3>
+    <div class="col shadow p-4" style="background-color: #ccccc8;">
+      <h3>Ingredients</h3>
       <ul>
-        <li *ngFor="let ingredient of recipe.ingredients"><span *ngIf="ingredient.quantity != 0">{{ingredient.quantity < 1 ? ingredient.quantity.toFixed(2) : ingredient.quantity.toFixed(0)}} </span><span *ngIf="ingredient.measure != '\<unit>'">{{ingredient.measure}} </span>{{ingredient.food}}</li>
+        <li *ngFor="let ingredient of recipe?.ingredients"><span *ngIf="ingredient.quantity != 0">{{ingredient.quantity < 1 ? ingredient.quantity.toFixed(2) : ingredient.quantity.toFixed(0)}} </span><span *ngIf="ingredient.measure != '\<unit>'">{{ingredient.measure}} </span>{{ingredient.food}}</li>
       </ul>
     </div>
     <div class="col p-4">
-      <p><i class="bi bi-clock"></i> Total time: {{recipe.totalTime}} m</p>
-      <p>Calories: {{recipe.calories.toFixed(2)}} kcal</p>
-      <p><i class="bi bi-person"></i> Source: {{recipe.source}}</p>
-      <p>Meal Type: {{recipe.mealType}}</p>
-      <p>Dish Type: {{recipe.dishType}}</p>
+      <p><i class="bi bi-person"></i> Source: {{recipe?.source}}</p>
+      <p><i class="bi bi-clock"></i> Total time: {{recipe?.totalTime}} m</p>
+      <p><i class="bi bi-lightning"></i> Calories: {{recipe?.calories.toFixed(2)}} kcal</p>
+      <p>Meal Type: {{recipe?.mealType?.toString() | capitalCase}}</p>
+      <p>Dish Type: {{recipe?.dishType}}</p>
 
       <div class="d-flex flex-wrap py-4">
-        <p style="font-size: 10px;" class="bg-success bg-opacity-10 px-3 py-1 my-1 me-2" *ngFor="let label of recipe.healthLabels">{{label}}</p>
+        <p class="labels px-3 py-1 my-1 me-2" *ngFor="let label of recipe?.healthLabels">{{label}}</p>
       </div>
 
-
-      <a href="{{recipe.url}}" target="_blank" title="Recipe" class="btn-cta px-2 py-1">See recipe</a>
+      <a href="{{recipe?.url}}" target="_blank" title="Recipe" class="btn-cta px-4 py-2">See recipe</a>
     </div>
   </div>
 </div>

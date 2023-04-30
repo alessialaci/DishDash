@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Per fare la registrazione
   register() {
     if (this.email == '' || this.password == '') {
       this.error = 'Please insert correct credentials.';
