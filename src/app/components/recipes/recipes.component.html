@@ -57,7 +57,7 @@
 
   <!-- Lista Ricette -->
   <div class="row justify-content-center py-5" *ngIf="recipes.length > 1">
-    <div class="card col-4 recipe shadow p-0 m-3" *ngFor="let recipe of recipes" style="width: 18rem;">
+    <div class="card col-4 recipe shadow p-0 m-3" *ngFor="let recipe of recipes | paginate: {itemsPerPage: 12, currentPage: paginaCorrente}" style="width: 18rem;">
       <span class="position-absolute end-0 badge rounded-0" style="background-color: #A5A6A0; top: 30px;">
         <i *ngIf="isLoggedIn()" class="bi" [ngClass]="{'bi-heart': !isFav(recipe.recipe.uri?.split('#')[1]),
                       'bi-heart-fill red-heart': isFav(recipe.recipe.uri?.split('#')[1])}"
@@ -70,6 +70,9 @@
         <a class="btn-confirm text-light px-4 py-2" [routerLink]="['/recipes', recipe.recipe.uri?.split('#')[1]]">See
           more</a>
       </div>
+    </div>
+    <div class="text-center my-5">
+      <pagination-controls (pageChange)="paginaCorrente = $event"></pagination-controls>
     </div>
   </div>
   <div class="text-center py-5" *ngIf="recipes.length < 1">

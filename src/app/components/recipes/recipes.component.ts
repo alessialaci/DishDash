@@ -20,6 +20,7 @@ export class RecipesComponent implements OnInit {
   mealTypes = Object.values(MealType);
   cuisineTypes = Object.values(CuisineType);
   error: string = '';
+  paginaCorrente: number = 1;
 
   constructor(private recipesSrv: RecipesService, private usersSrv: UsersService, private authSrv: AuthService) { }
 
