@@ -1,10 +1,10 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
 import { CuisineType } from 'src/app/enums/cuisine-type.enum';
 import { MealType } from 'src/app/enums/meal-type.enum';
-import { HttpParams } from '@angular/common/http';
-import { RecipesService } from 'src/app/services/recipes.service';
 import { User } from 'src/app/models/user.interface';
+import { RecipesService } from 'src/app/services/recipes.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UsersService } from 'src/app/services/users.service';
 

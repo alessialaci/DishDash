@@ -9,5 +9,4 @@ export interface Recipe {
   mealType: string[],
   source: string,
   totalTime: number,
-
 }

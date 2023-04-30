@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { EventsService } from 'src/app/services/events.service';
 import { RecipesService } from 'src/app/services/recipes.service';
 import { UsersService } from 'src/app/services/users.service';
+import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -21,7 +21,6 @@ export class CalendarComponent implements OnInit {
   calendarEvents: any[] = [];
   selectedLabel: string = '';
   paginaCorrente: number = 1;
-
 
   constructor(private recipesSrv: RecipesService, private usersSrv: UsersService, private eventsSrv: EventsService) {
     this.calendarOptions = {
