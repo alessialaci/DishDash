@@ -205,3 +205,10 @@ label {
     color: #8e8e8c !important;
   }
 }
+
+// Responsive
+@media screen and (max-width: 504px), (max-width: 1199px) and (min-width: 992px) {
+  .fc .fc-button-group {
+    margin: 10px 0 0 !important;
+  }
+}
