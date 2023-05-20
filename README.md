@@ -16,6 +16,11 @@ Ho inserito le seguenti funzionalità:
 </ul>
 
 
-## Link al sito
+## Link al sito 🔗
 
 Vuoi sperimentare in prima persona le funzionalità di DishDash? È disponibile online al link https://dish-dash.vercel.app/.
+
+
+## Attenzione ⚠️
+
+Ho utilizzato la versione gratuita dell'API Edamame, pertanto è possibile effettuare un massimo di 10 richieste al minuto.
