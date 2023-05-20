@@ -23,4 +23,4 @@ Vuoi sperimentare in prima persona le funzionalità di DishDash? È disponibile 
 
 ## Attenzione ⚠️
 
-Ho utilizzato la versione gratuita dell'API Edamame, pertanto è possibile effettuare un massimo di 10 richieste al minuto.
+Ho utilizzato la versione gratuita dell'API Edamam, pertanto è possibile effettuare un massimo di 10 richieste al minuto.
